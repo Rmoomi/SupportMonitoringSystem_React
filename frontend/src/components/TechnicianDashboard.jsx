@@ -4,6 +4,7 @@ import {
   ChevronRight, ChevronDown, Eye, Filter, X, ArrowUpRight, Clock 
 } from 'lucide-react';
 import supabase from '../supabaseClient';
+import { API_URL } from '../config';
 
 export default function TechnicianDashboard({ userProfile, tickets, clients, products, concerns, onRefresh }) {
   const [techTab, setTechTab] = useState('queue'); // 'queue' | 'self_ticket' | 'settings'
@@ -218,7 +219,7 @@ export default function TechnicianDashboard({ userProfile, tickets, clients, pro
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/tickets/bulk', {
+      const response = await fetch(`${API_URL}/api/tickets/bulk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -260,7 +261,7 @@ export default function TechnicianDashboard({ userProfile, tickets, clients, pro
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/tickets/bulk', {
+      const response = await fetch(`${API_URL}/api/tickets/bulk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -416,7 +417,7 @@ export default function TechnicianDashboard({ userProfile, tickets, clients, pro
   const handleProfileSettingsSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/technical/${userProfile.technical_id}/privileges`, {
+      const response = await fetch(`${API_URL}/api/technical/${userProfile.technical_id}/privileges`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

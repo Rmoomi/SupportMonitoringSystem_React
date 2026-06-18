@@ -5,6 +5,7 @@ import {
   Search, EyeOff, Download, Upload, Filter, Save, X, Calendar, ClipboardList 
 } from 'lucide-react';
 import supabase from '../supabaseClient';
+import { API_URL } from '../config';
 
 export default function TicketManager({ tickets, staff, products, concerns, clients, onRefresh, adminUser }) {
   // Filters & State
@@ -190,7 +191,7 @@ export default function TicketManager({ tickets, staff, products, concerns, clie
 
     try {
       // Fetch response from node server
-      const response = await fetch('http://localhost:5000/api/tickets/bulk', {
+      const response = await fetch(`${API_URL}/api/tickets/bulk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -220,7 +221,7 @@ export default function TicketManager({ tickets, staff, products, concerns, clie
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/tickets/bulk', {
+      const response = await fetch(`${API_URL}/api/tickets/bulk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -305,7 +306,7 @@ export default function TicketManager({ tickets, staff, products, concerns, clie
     if (!archiveReason.trim()) return;
 
     try {
-      const response = await fetch('http://localhost:5000/api/tickets/archive', {
+      const response = await fetch(`${API_URL}/api/tickets/archive`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -343,7 +344,7 @@ export default function TicketManager({ tickets, staff, products, concerns, clie
         archive_reason: 'Bulk action performed'
       };
 
-      const response = await fetch('http://localhost:5000/api/tickets/bulk', {
+      const response = await fetch(`${API_URL}/api/tickets/bulk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -413,7 +414,7 @@ export default function TicketManager({ tickets, staff, products, concerns, clie
         const jsonRows = XLSX.utils.sheet_to_json(worksheet);
 
         setImportStatus('Uploading to server...');
-        const response = await fetch('http://localhost:5000/api/tickets/import', {
+        const response = await fetch(`${API_URL}/api/tickets/import`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

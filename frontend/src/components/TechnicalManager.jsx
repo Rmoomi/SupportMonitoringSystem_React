@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ToggleLeft, ToggleRight, CheckSquare, Square, Mail, MapPin, UserCheck, Plus, Pencil, X } from 'lucide-react';
 import supabase from '../supabaseClient';
+import { API_URL } from '../config';
 
 export default function TechnicalManager({ staff, tickets, products, concerns, clients, onRefresh, adminUser }) {
   const [selectedTech, setSelectedTech] = useState(staff[0] || null);
@@ -32,7 +33,7 @@ export default function TechnicalManager({ staff, tickets, products, concerns, c
   const handleToggleActive = async (tech) => {
     const nextStatus = !tech.is_active;
     try {
-      const response = await fetch(`http://localhost:5000/api/technical/${tech.technical_id}/toggle-active`, {
+      const response = await fetch(`${API_URL}/api/technical/${tech.technical_id}/toggle-active`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +59,7 @@ export default function TechnicalManager({ staff, tickets, products, concerns, c
     const nextVal = !currentVal;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/technical/${selectedTech.technical_id}/privileges`, {
+      const response = await fetch(`${API_URL}/api/technical/${selectedTech.technical_id}/privileges`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -89,7 +90,7 @@ export default function TechnicalManager({ staff, tickets, products, concerns, c
         if (error) throw error;
       } else {
         // Edit existing
-        const response = await fetch(`http://localhost:5000/api/technical/${selectedTech.technical_id}/privileges`, {
+        const response = await fetch(`${API_URL}/api/technical/${selectedTech.technical_id}/privileges`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
