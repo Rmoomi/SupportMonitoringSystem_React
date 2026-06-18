@@ -820,6 +820,15 @@ export default function App() {
     );
   }
 
+  // Compute badge counts
+  const unviewedTechTickets = userProfile && userProfile.userType === 'staff'
+    ? tickets.filter(t => t.technical_id === userProfile.technical_id && !t.is_viewed).length
+    : 0;
+
+  const pendingAdminTickets = userProfile && userProfile.position === 'Admin'
+    ? tickets.filter(t => t.status === 'Pending').length
+    : 0;
+
   // 3. Main Dashboard Layout (For active users)
   return (
     <div className="app-container">
@@ -927,6 +936,9 @@ export default function App() {
                 >
                   <ClipboardList size={18} />
                   <span>Ticket Board</span>
+                  {pendingAdminTickets > 0 && (
+                    <span className="sidebar-badge">{pendingAdminTickets}</span>
+                  )}
                 </a>
               )}
 
@@ -963,6 +975,9 @@ export default function App() {
             <a className="sidebar-item active">
               <LayoutDashboard size={18} />
               <span>My Dashboard</span>
+              {unviewedTechTickets > 0 && (
+                <span className="sidebar-badge">{unviewedTechTickets}</span>
+              )}
             </a>
           )}
         </nav>

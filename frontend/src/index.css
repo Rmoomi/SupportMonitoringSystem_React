@@ -225,6 +225,22 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
 
+.sidebar-badge {
+  background-color: #ff7675;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  line-height: 1;
+}
+
 .sidebar-footer {
   margin-top: auto;
   border-top: 1px solid hsl(var(--border-color));
