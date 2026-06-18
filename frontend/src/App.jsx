@@ -471,6 +471,7 @@ export default function App() {
           concerns={concerns}
           onRefresh={handleRefresh}
           handleLogout={triggerLogoutConfirm}
+          view={activeTab === 'tickets' ? 'tickets' : 'dashboard'}
         />
       );
     }
@@ -893,10 +894,22 @@ export default function App() {
 
         <nav className="sidebar-nav">
           {isClient ? (
-            <a className="sidebar-item active">
-              <LayoutDashboard size={18} />
-              <span>Client Portal</span>
-            </a>
+            <>
+              <a
+                onClick={() => setActiveTab('dashboard')}
+                className={`sidebar-item ${activeTab === 'dashboard' ? 'active' : ''}`}
+              >
+                <LayoutDashboard size={18} />
+                <span>Dashboard</span>
+              </a>
+              <a
+                onClick={() => setActiveTab('tickets')}
+                className={`sidebar-item ${activeTab === 'tickets' ? 'active' : ''}`}
+              >
+                <ClipboardList size={18} />
+                <span>Ticket</span>
+              </a>
+            </>
           ) : isAdmin ? (
             <>
               <a
@@ -977,14 +990,14 @@ export default function App() {
         <header className="top-header">
           <div>
             <h1 style={{ fontSize: '1.5rem', fontFamily: 'Outfit' }}>
-              {isClient ? 'Client Support Portal' :
+              {isClient ? (activeTab === 'tickets' ? 'Support Tickets' : 'Client Support Portal') :
                 activeTab === 'dashboard' ? 'Dashboard Overview' :
                   activeTab === 'tickets' ? 'Ticket Management' :
                     activeTab === 'technical' ? 'Technical Staff' :
                       activeTab === 'clients' ? 'Clients Directory' : 'Analytics & Reports'}
             </h1>
             <p style={{ fontSize: '0.8rem', color: 'hsl(var(--fg-secondary))' }}>
-              {isClient ? 'Submit support requests and trace technician resolutions.' :
+              {isClient ? (activeTab === 'tickets' ? 'View and track your submitted support requests.' : 'Submit support requests and trace technician resolutions.') :
                 'Manage concerns, track resolution speeds, and view staff statistics.'}
             </p>
           </div>

@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import supabase from '../supabaseClient';
 
-export default function ClientDashboard({ userProfile, tickets, products, concerns, onRefresh, handleLogout }) {
+export default function ClientDashboard({ userProfile, tickets, products, concerns, onRefresh, handleLogout, view }) {
   const [activeModal, setActiveModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
@@ -141,192 +141,201 @@ export default function ClientDashboard({ userProfile, tickets, products, concer
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
-      {/* Welcome Banner Card */}
-      <div className="card-widget" style={{ 
-        background: 'linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.02) 100%)',
-        border: '1px solid rgba(var(--primary-rgb), 0.2)',
-        padding: '1.5rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1.5rem'
-      }}>
-        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-          <div className="avatar" style={{ 
-            width: '56px', height: '56px', fontSize: '1.4rem', 
-            backgroundColor: 'hsl(var(--primary))', color: '#fff', border: 'none' 
+      {view === 'dashboard' ? (
+        <>
+          {/* Welcome Banner Card */}
+          <div className="card-widget" style={{ 
+            background: 'linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.02) 100%)',
+            border: '1px solid rgba(var(--primary-rgb), 0.2)',
+            padding: '1.5rem 2rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '1.5rem'
           }}>
-            {userProfile?.company_name?.[0]?.toUpperCase() || 'C'}
+            <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+              <div className="avatar" style={{ 
+                width: '56px', height: '56px', fontSize: '1.4rem', 
+                backgroundColor: 'hsl(var(--primary))', color: '#fff', border: 'none' 
+              }}>
+                {userProfile?.company_name?.[0]?.toUpperCase() || 'C'}
+              </div>
+              <div>
+                <h2 style={{ fontFamily: 'Outfit', fontSize: '1.5rem', marginBottom: '0.25rem' }}>
+                  Welcome, {userProfile?.contact_person || 'Client'}
+                </h2>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: 'hsl(var(--fg-secondary))' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Building size={14} /> {userProfile?.company_name}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Mail size={14} /> {userProfile?.email}</span>
+                  {userProfile?.contact_number && (
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Phone size={14} /> {userProfile.contact_number}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            <button className="btn btn-primary" onClick={() => setActiveModal(true)} style={{ gap: '0.5rem', padding: '0.75rem 1.25rem' }}>
+              <Plus size={18} /> Request Support
+            </button>
           </div>
-          <div>
-            <h2 style={{ fontFamily: 'Outfit', fontSize: '1.5rem', marginBottom: '0.25rem' }}>
-              Welcome, {userProfile?.contact_person || 'Client'}
-            </h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: 'hsl(var(--fg-secondary))' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Building size={14} /> {userProfile?.company_name}</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Mail size={14} /> {userProfile?.email}</span>
-              {userProfile?.contact_number && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Phone size={14} /> {userProfile.contact_number}</span>
-              )}
+
+          {/* Metrics Cards Grid */}
+          <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+            <div className="metric-card">
+              <div className="metric-info">
+                <h3>Total Requests</h3>
+                <span className="metric-value">{total}</span>
+              </div>
+              <div className="metric-icon-box">
+                <Ticket size={24} />
+              </div>
+            </div>
+
+            <div className="metric-card">
+              <div className="metric-info">
+                <h3>Pending Review</h3>
+                <span className="metric-value" style={{ color: '#ff7675' }}>{pending}</span>
+              </div>
+              <div className="metric-icon-box" style={{ color: '#ff7675', backgroundColor: 'rgba(255, 118, 117, 0.1)' }}>
+                <Clock size={24} />
+              </div>
+            </div>
+
+            <div className="metric-card">
+              <div className="metric-info">
+                <h3>In Progress</h3>
+                <span className="metric-value" style={{ color: 'hsl(var(--primary))' }}>{inProgress}</span>
+              </div>
+              <div className="metric-icon-box" style={{ color: 'hsl(var(--primary))', backgroundColor: 'rgba(9, 132, 227, 0.1)' }}>
+                <HelpCircle size={24} />
+              </div>
+            </div>
+
+            <div className="metric-card">
+              <div className="metric-info">
+                <h3>Resolved Support</h3>
+                <span className="metric-value" style={{ color: '#00b894' }}>{resolved}</span>
+              </div>
+              <div className="metric-icon-box" style={{ color: '#00b894', backgroundColor: 'rgba(0, 184, 148, 0.1)' }}>
+                <CheckCircle size={24} />
+              </div>
             </div>
           </div>
-        </div>
-        
-        <button className="btn btn-primary" onClick={() => setActiveModal(true)} style={{ gap: '0.5rem', padding: '0.75rem 1.25rem' }}>
-          <Plus size={18} /> Request Support
-        </button>
-      </div>
-
-      {/* Metrics Cards Grid */}
-      <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-        <div className="metric-card">
-          <div className="metric-info">
-            <h3>Total Requests</h3>
-            <span className="metric-value">{total}</span>
-          </div>
-          <div className="metric-icon-box">
-            <Ticket size={24} />
-          </div>
-        </div>
-
-        <div className="metric-card">
-          <div className="metric-info">
-            <h3>Pending Review</h3>
-            <span className="metric-value" style={{ color: '#ff7675' }}>{pending}</span>
-          </div>
-          <div className="metric-icon-box" style={{ color: '#ff7675', backgroundColor: 'rgba(255, 118, 117, 0.1)' }}>
-            <Clock size={24} />
-          </div>
-        </div>
-
-        <div className="metric-card">
-          <div className="metric-info">
-            <h3>In Progress</h3>
-            <span className="metric-value" style={{ color: 'hsl(var(--primary))' }}>{inProgress}</span>
-          </div>
-          <div className="metric-icon-box" style={{ color: 'hsl(var(--primary))', backgroundColor: 'rgba(9, 132, 227, 0.1)' }}>
-            <HelpCircle size={24} />
-          </div>
-        </div>
-
-        <div className="metric-card">
-          <div className="metric-info">
-            <h3>Resolved Support</h3>
-            <span className="metric-value" style={{ color: '#00b894' }}>{resolved}</span>
-          </div>
-          <div className="metric-icon-box" style={{ color: '#00b894', backgroundColor: 'rgba(0, 184, 148, 0.1)' }}>
-            <CheckCircle size={24} />
-          </div>
-        </div>
-      </div>
-
-      {/* Filter and List Widget */}
-      <div className="card-widget">
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid hsl(var(--border-color))', paddingBottom: '1rem', marginBottom: '1rem' }}>
-          <span style={{ fontWeight: 700, fontSize: '1.1rem', fontFamily: 'Outfit' }}>Your Support Tickets</span>
+        </>
+      ) : (
+        /* Filter and List Widget */
+        <div className="card-widget">
           
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            {/* Search Bar */}
-            <div style={{ position: 'relative', minWidth: '220px' }}>
-              <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'hsl(var(--fg-muted))' }} />
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search ticket ID or details..."
-                style={{ paddingLeft: '2.25rem', paddingRight: '0.5rem', height: '38px', fontSize: '0.85rem' }}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid hsl(var(--border-color))', paddingBottom: '1rem', marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <span style={{ fontWeight: 700, fontSize: '1.1rem', fontFamily: 'Outfit' }}>Your Support Tickets</span>
+              <button className="btn btn-primary" onClick={() => setActiveModal(true)} style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', gap: '0.3rem' }}>
+                <Plus size={14} /> Request Support
+              </button>
             </div>
+            
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              {/* Search Bar */}
+              <div style={{ position: 'relative', minWidth: '220px' }}>
+                <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'hsl(var(--fg-muted))' }} />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search ticket ID or details..."
+                  style={{ paddingLeft: '2.25rem', paddingRight: '0.5rem', height: '38px', fontSize: '0.85rem' }}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
 
-            {/* Filter Toggle */}
-            <div style={{ display: 'flex', border: '1px solid hsl(var(--border-color))', borderRadius: 'var(--radius-md)', padding: '0.2rem', backgroundColor: 'hsl(var(--bg-secondary))' }}>
-              {['All', 'Pending', 'In Progress', 'Resolved', 'Closed'].map(status => (
-                <button
-                  key={status}
-                  onClick={() => setStatusFilter(status)}
-                  className="btn"
-                  style={{
-                    padding: '0.3rem 0.6rem', fontSize: '0.75rem',
-                    backgroundColor: statusFilter === status ? 'hsl(var(--primary))' : 'transparent',
-                    color: statusFilter === status ? '#fff' : 'hsl(var(--fg-secondary))',
-                    borderRadius: 'calc(var(--radius-md) - 2px)'
-                  }}
-                >
-                  {status}
-                </button>
-              ))}
+              {/* Filter Toggle */}
+              <div style={{ display: 'flex', border: '1px solid hsl(var(--border-color))', borderRadius: 'var(--radius-md)', padding: '0.2rem', backgroundColor: 'hsl(var(--bg-secondary))' }}>
+                {['All', 'Pending', 'In Progress', 'Resolved', 'Closed'].map(status => (
+                  <button
+                    key={status}
+                    onClick={() => setStatusFilter(status)}
+                    className="btn"
+                    style={{
+                      padding: '0.3rem 0.6rem', fontSize: '0.75rem',
+                      backgroundColor: statusFilter === status ? 'hsl(var(--primary))' : 'transparent',
+                      color: statusFilter === status ? '#fff' : 'hsl(var(--fg-secondary))',
+                      borderRadius: 'calc(var(--radius-md) - 2px)'
+                    }}
+                  >
+                    {status}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Tickets Table / List */}
-        <div className="table-container">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Ticket ID</th>
-                <th>Product</th>
-                <th>Concern Category</th>
-                <th>Description</th>
-                <th>Date Requested</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Technical Staff</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTickets.length === 0 ? (
+          {/* Tickets Table / List */}
+          <div className="table-container">
+            <table className="data-table">
+              <thead>
                 <tr>
-                  <td colSpan="9" style={{ textAlign: 'center', padding: '3rem', color: 'hsl(var(--fg-secondary))' }}>
-                    {clientTickets.length === 0 ? "You have not submitted any support tickets yet." : "No tickets matching your search query or status filter."}
-                  </td>
+                  <th>Ticket ID</th>
+                  <th>Product</th>
+                  <th>Concern Category</th>
+                  <th>Description</th>
+                  <th>Date Requested</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Technical Staff</th>
+                  <th>Actions</th>
                 </tr>
-              ) : (
-                filteredTickets.map(t => {
-                  const techName = t.technical_staff 
-                    ? `${t.technical_staff.firstname} ${t.technical_staff.lastname}` 
-                    : 'Not Assigned Yet';
-                  
-                  return (
-                    <tr key={t.ticket_id} style={{ cursor: 'pointer' }} onClick={() => setSelectedTicket(t)}>
-                      <td style={{ fontWeight: 700 }}>#{t.ticket_id}</td>
-                      <td>{t.products?.product_name || 'N/A'}</td>
-                      <td>{t.concerns?.concern_name || 'N/A'}</td>
-                      <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                        {t.concern_description}
-                      </td>
-                      <td>{new Date(t.date_requested).toLocaleDateString()}</td>
-                      <td>
-                        <span className={`badge badge-${t.priority?.toLowerCase()}`}>
-                          {t.priority}
-                        </span>
-                      </td>
-                      <td>
-                        <span className={`badge badge-${t.status?.toLowerCase().replace(' ', '-')}`}>
-                          {t.status}
-                        </span>
-                      </td>
-                      <td style={{ fontStyle: t.technical_staff ? 'normal' : 'italic', color: t.technical_staff ? 'inherit' : 'hsl(var(--fg-muted))' }}>
-                        {techName}
-                      </td>
-                      <td>
-                        <button className="btn btn-secondary" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', gap: '0.2rem' }} onClick={(e) => { e.stopPropagation(); setSelectedTicket(t); }}>
-                          Inspect <ChevronRight size={12} />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredTickets.length === 0 ? (
+                  <tr>
+                    <td colSpan="9" style={{ textAlign: 'center', padding: '3rem', color: 'hsl(var(--fg-secondary))' }}>
+                      {clientTickets.length === 0 ? "You have not submitted any support tickets yet." : "No tickets matching your search query or status filter."}
+                    </td>
+                  </tr>
+                ) : (
+                  filteredTickets.map(t => {
+                    const techName = t.technical_staff 
+                      ? `${t.technical_staff.firstname} ${t.technical_staff.lastname}` 
+                      : 'Not Assigned Yet';
+                    
+                    return (
+                      <tr key={t.ticket_id} style={{ cursor: 'pointer' }} onClick={() => setSelectedTicket(t)}>
+                        <td style={{ fontWeight: 700 }}>#{t.ticket_id}</td>
+                        <td>{t.products?.product_name || 'N/A'}</td>
+                        <td>{t.concerns?.concern_name || 'N/A'}</td>
+                        <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                          {t.concern_description}
+                        </td>
+                        <td>{new Date(t.date_requested).toLocaleDateString()}</td>
+                        <td>
+                          <span className={`badge badge-${t.priority?.toLowerCase()}`}>
+                            {t.priority}
+                          </span>
+                        </td>
+                        <td>
+                          <span className={`badge badge-${t.status?.toLowerCase().replace(' ', '-')}`}>
+                            {t.status}
+                          </span>
+                        </td>
+                        <td style={{ fontStyle: t.technical_staff ? 'normal' : 'italic', color: t.technical_staff ? 'inherit' : 'hsl(var(--fg-muted))' }}>
+                          {techName}
+                        </td>
+                        <td>
+                          <button className="btn btn-secondary" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', gap: '0.2rem' }} onClick={(e) => { e.stopPropagation(); setSelectedTicket(t); }}>
+                            Inspect <ChevronRight size={12} />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
 
-      </div>
+        </div>
+      )}
 
       {/* ----------------------------------------------------------------- */}
       {/* MODALS */}
