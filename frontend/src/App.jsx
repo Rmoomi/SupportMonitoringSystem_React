@@ -770,7 +770,7 @@ export default function App() {
           )}
 
           {authMode === 'login' ? (
-            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <div className="form-group">
                 <label>Email Address</label>
                 <input
@@ -784,39 +784,39 @@ export default function App() {
               </div>
               <div className="form-group">
                 <label>Password</label>
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: 'relative', width: '100%' }}>
                   <input
                     type={showLoginPw ? 'text' : 'password'}
                     className="form-control"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ paddingRight: '2.5rem' }}
+                    style={{ paddingRight: '2.4rem' }}
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowLoginPw(p => !p)}
                     style={{
-                      position: 'absolute', right: '0.65rem', top: '50%',
+                      position: 'absolute', right: '0.7rem', top: '50%',
                       transform: 'translateY(-50%)', background: 'none',
-                      border: 'none', cursor: 'pointer',
+                      border: 'none', cursor: 'pointer', lineHeight: 0,
                       color: 'hsl(var(--fg-secondary))', padding: 0
                     }}
                     tabIndex={-1}
                   >
-                    {showLoginPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showLoginPw ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary" style={{ justifyContent: 'center', padding: '0.75rem' }}>
-                Sign In <ArrowRight size={16} />
+              <button type="submit" className="btn btn-primary" style={{ justifyContent: 'center', padding: '0.6rem', marginTop: '0.25rem' }}>
+                Sign In <ArrowRight size={15} />
               </button>
             </form>
           ) : isTechnicalUrl ? (
             /* Technical Staff Signup */
-            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
                 <div className="form-group">
                   <label>First Name</label>
                   <input
@@ -846,7 +846,7 @@ export default function App() {
                 <input
                   type="email"
                   className="form-control"
-                  placeholder="john.doe@ticketflow.com"
+                  placeholder="john.doe@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -855,33 +855,33 @@ export default function App() {
 
               <div className="form-group">
                 <label>Password</label>
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: 'relative', width: '100%' }}>
                   <input
                     type={showSignupPw ? 'text' : 'password'}
                     className="form-control"
                     placeholder="Min 6 characters"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ paddingRight: '2.5rem' }}
+                    style={{ paddingRight: '2.4rem' }}
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowSignupPw(p => !p)}
                     style={{
-                      position: 'absolute', right: '0.65rem', top: '50%',
+                      position: 'absolute', right: '0.7rem', top: '50%',
                       transform: 'translateY(-50%)', background: 'none',
-                      border: 'none', cursor: 'pointer',
+                      border: 'none', cursor: 'pointer', lineHeight: 0,
                       color: 'hsl(var(--fg-secondary))', padding: 0
                     }}
                     tabIndex={-1}
                   >
-                    {showSignupPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showSignupPw ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
                 <div className="form-group">
                   <label>Office Branch</label>
                   <select className="form-control" value={branch} onChange={(e) => setBranch(e.target.value)}>
@@ -905,28 +905,28 @@ export default function App() {
               {position === 'Admin' && (
                 <div className="form-group">
                   <label style={{ color: '#8b5cf6' }}>Secret Admin Passcode</label>
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative', width: '100%' }}>
                     <input
                       type={showAdminPw ? 'text' : 'password'}
                       className="form-control"
                       placeholder="Enter admin code"
                       value={adminPasscode}
                       onChange={(e) => setAdminPasscode(e.target.value)}
-                      style={{ paddingRight: '2.5rem' }}
+                      style={{ paddingRight: '2.4rem' }}
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowAdminPw(p => !p)}
                       style={{
-                        position: 'absolute', right: '0.65rem', top: '50%',
+                        position: 'absolute', right: '0.7rem', top: '50%',
                         transform: 'translateY(-50%)', background: 'none',
-                        border: 'none', cursor: 'pointer',
+                        border: 'none', cursor: 'pointer', lineHeight: 0,
                         color: 'hsl(var(--fg-secondary))', padding: 0
                       }}
                       tabIndex={-1}
                     >
-                      {showAdminPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                      {showAdminPw ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
                   </div>
                   <span style={{ fontSize: '0.7rem', color: 'hsl(var(--fg-secondary))' }}>
@@ -935,13 +935,13 @@ export default function App() {
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary" style={{ justifyContent: 'center', padding: '0.75rem' }}>
-                Register Profile <ArrowRight size={16} />
+              <button type="submit" className="btn btn-primary" style={{ justifyContent: 'center', padding: '0.6rem', marginTop: '0.1rem' }}>
+                Register Profile <ArrowRight size={15} />
               </button>
             </form>
           ) : (
             /* Client Signup */
-            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <div className="form-group">
                 <label>Company Name</label>
                 <input
@@ -954,7 +954,7 @@ export default function App() {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
                 <div className="form-group">
                   <label>Contact First Name</label>
                   <input
@@ -993,28 +993,28 @@ export default function App() {
 
               <div className="form-group">
                 <label>Password</label>
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: 'relative', width: '100%' }}>
                   <input
                     type={showSignupPw ? 'text' : 'password'}
                     className="form-control"
                     placeholder="Min 6 characters"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ paddingRight: '2.5rem' }}
+                    style={{ paddingRight: '2.4rem' }}
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowSignupPw(p => !p)}
                     style={{
-                      position: 'absolute', right: '0.65rem', top: '50%',
+                      position: 'absolute', right: '0.7rem', top: '50%',
                       transform: 'translateY(-50%)', background: 'none',
-                      border: 'none', cursor: 'pointer',
+                      border: 'none', cursor: 'pointer', lineHeight: 0,
                       color: 'hsl(var(--fg-secondary))', padding: 0
                     }}
                     tabIndex={-1}
                   >
-                    {showSignupPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showSignupPw ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>
               </div>
@@ -1030,8 +1030,8 @@ export default function App() {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary" style={{ justifyContent: 'center', padding: '0.75rem' }}>
-                Register Client <ArrowRight size={16} />
+              <button type="submit" className="btn btn-primary" style={{ justifyContent: 'center', padding: '0.6rem', marginTop: '0.1rem' }}>
+                Register Client <ArrowRight size={15} />
               </button>
             </form>
           )}
