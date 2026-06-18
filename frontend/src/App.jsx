@@ -576,6 +576,7 @@ export default function App() {
   };
 
   const handleClearTechBadge = async () => {
+    setActiveTab('dashboard'); // always navigate to dashboard first
     if (!session || !userProfile || userProfile.userType !== 'staff' || userProfile.position === 'Admin') return;
     const techUnviewed = tickets.filter(t => t.technical_id === userProfile.technical_id && !t.is_viewed);
     if (techUnviewed.length > 0) {
