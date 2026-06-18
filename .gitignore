@@ -1,0 +1,33 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local environment files (contains keys/secrets)
+.env
+.env.local
+.env.production
+.env.development
+.env.*
+*.env
+backend/.env
+frontend/.env
+
+# Build and production output
+dist/
+dist-ssr/
+build/
+out/
+
+# Editor and OS metadata
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
