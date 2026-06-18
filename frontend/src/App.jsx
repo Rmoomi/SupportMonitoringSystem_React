@@ -527,9 +527,9 @@ export default function App() {
     return (
       <div className="auth-page">
         <div className="auth-card">
-          <div className="auth-header">
-            <img src={logoMssc} alt="MSSC Logo" style={{ height: '40px', width: 'auto', objectFit: 'contain' }} />
-            <p style={{ color: 'hsl(var(--fg-secondary))', fontSize: '0.85rem' }}>
+          <div className="auth-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <img src={logoMssc} alt="MSSC Logo" style={{ height: '70px', width: 'auto', objectFit: 'contain', marginBottom: '0.5rem' }} />
+            <p style={{ color: 'hsl(var(--fg-secondary))', fontSize: '0.85rem', textAlign: 'center' }}>
               {isTechnicalUrl ? 'Work Monitoring & Support Ticket Management (Staff)' : 'Client Support Portal'}
             </p>
           </div>
@@ -887,9 +887,8 @@ export default function App() {
 
       {/* Sidebar Panel */}
       <aside className="sidebar">
-        <div className="sidebar-logo">
-          <img src={logoMssc} alt="MSSC Logo" style={{ height: '26px', width: 'auto', objectFit: 'contain' }} />
-          <span>TicketFlow</span>
+        <div className="sidebar-logo" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center' }}>
+          <img src={logoMssc} alt="MSSC Logo" style={{ height: '54px', width: 'auto', objectFit: 'contain' }} />
         </div>
 
         <nav className="sidebar-nav">
