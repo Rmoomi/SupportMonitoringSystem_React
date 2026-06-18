@@ -546,6 +546,16 @@ export default function App() {
     setUserProfile(null);
     setSession(null);
     setActiveTab('dashboard');
+    setAuthMode('login');
+    setAuthSuccess('');
+    setAuthError('');
+    setEmail('');
+    setPassword('');
+    setFirstname('');
+    setLastname('');
+    setCompanyName('');
+    setContactNumber('');
+    setAdminPasscode('');
   };
 
   const triggerLogoutConfirm = () => {
