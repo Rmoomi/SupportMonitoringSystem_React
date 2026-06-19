@@ -29,6 +29,7 @@ DROP TYPE IF EXISTS ticket_status;
 -- 1. Clients Table
 CREATE TABLE IF NOT EXISTS public.clients (
     client_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID UNIQUE REFERENCES auth.users(id) ON DELETE SET NULL,
     company_name VARCHAR NOT NULL UNIQUE,
     contact_person VARCHAR NOT NULL,
     contact_number VARCHAR,
